@@ -1,0 +1,1 @@
+* [`r issue$description`]{ .issue .`r issue$type` .`r list(warning='warning', error='danger')[[issue$type]]`-color }

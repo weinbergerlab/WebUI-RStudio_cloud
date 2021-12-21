@@ -1,0 +1,41 @@
+Package: InterventionEvaluatR-WebUI
+Title: InterventionEvaluatR Web UI
+Version: 0.1
+Date: 2021-08-15
+Author: Daniel Weinberger, Ben Artin
+Maintainer: Ben Artin <ben@artins.org>
+Description: Web UI for Intervention evaluation package
+Depends:
+    R(>= 3.5.0)
+Imports: 
+    utils,
+    InterventionEvaluatR,
+    brew,
+    dplyr,
+    future (== 1.19.1),
+    ggplot2,
+    htmltools,
+    jsonlite,
+    lubridate,
+    magrittr,
+    parallel,
+    plotly,
+    plyr,
+    promises,
+    rlang,
+    rmarkdown,
+    shiny,
+    shinyBS,
+    shinyWidgets,
+    shinyjs,
+    stats,
+    stringr,
+    tibble,
+    tools,
+    uuid
+Suggests:
+    knitr,
+    rmarkdown
+License: file LICENSE
+Encoding: UTF-8
+RoxygenNote: 6.1.1

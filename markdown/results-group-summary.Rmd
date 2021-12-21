@@ -1,0 +1,1 @@
+The analysis of ` `r setup$outcomeCol` / `r setup$denomCol` ` in ` `r group$name` ` found that vaccine introduced in `r setup$postStart` prevented `r group$prevented$median` (95% CI: `r group$prevented$lcl`–`r group$prevented$ucl`) cases between `r setup$postStart` and `r setup$postEnd`.

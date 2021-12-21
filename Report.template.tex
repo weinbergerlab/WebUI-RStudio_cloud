@@ -1,0 +1,122 @@
+<%
+  `%|%` = function(a, b) b(a)
+
+  latex = function(str) {
+    kableExtra:::escape_latex(str)
+  }
+%>
+\documentclass[11pt,svgnames]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+
+\usepackage{tikz}
+\usepackage{fontspec}
+\usepackage[explicit]{titlesec}
+
+% Set up fonts
+\setmainfont{Roboto-Light}
+\newfontface\robotobold{Roboto-Medium}
+\newfontface\robotolight{Roboto-Light}
+
+% Set up colors
+\definecolor{ChapterColor}{RGB}{66,133,244}
+\definecolor{SectionColor}{RGB}{248,248,248}
+\definecolor{SectionTextColor}{RGB}{0,123,255}
+
+% Set up section headers
+\titleformat{\section}
+  {\normalfont\huge\bfseries}{}{0em}
+  {%
+  \begin{tikzpicture}
+  \node[inner xsep=0pt,text width=\textwidth,
+    align=left,left color=ChapterColor,right color=ChapterColor] 
+    {\parbox[t][2em]{\linewidth}{\robotobold\center\textcolor{White}{#1}}};
+  \end{tikzpicture}%
+  }
+
+\titleformat{\subsection}
+  {\normalfont\LARGE\bfseries}{}{0em}
+  {%
+  \begin{tikzpicture}
+  \node[inner xsep=0pt,text width=\textwidth,
+    align=left,left color=SectionColor,right color=SectionColor] 
+    {\parbox[c][2em]{\linewidth}{\qquad\robotolight\raggedright\textcolor{SectionTextColor}{#1}}};
+  \end{tikzpicture}%
+  }
+
+% This is used by pandoc, but we don't care
+\def\tightlist{}
+
+\titlespacing\chapter{0em}{0em}{0em}
+%\titlespacing\section{0em}{0em}{0em}
+
+\title{InterventionEvaluatR Report}
+
+\begin{document}
+
+\maketitle
+
+\section*{Analysis Summary}
+
+<%=
+renderLaTeX(
+  "markdown/results-summary.Rmd", envir=new_environment(data=list(
+    setup = analysis$setup,
+    dataIssues = analysis$dataIssues,
+    # Also some helpers
+    rmd.if = rmd.if,
+    rmd.endif = rmd.endif,
+    rmd.foreach = rmd.foreach
+  ), parent=baseenv())
+)
+%>
+
+<%
+for(idx in seq_along(analysis$results$groups)) { 
+  group = analysis$results$groups[[idx]]
+  groupName = group$name
+  groupFileName = gsub("[^a-zA-Z0-9_.-]", "-", groupName)
+%>
+
+\section*{<%= groupName %|% latex %>}
+
+\subsection*{Summary}
+
+<%=
+renderLaTeX(
+  "markdown/results-group-summary.Rmd", envir=new_environment(data=list(
+    setup=analysis$setup,
+    group=group
+  ), parent=baseenv())
+)
+%>
+
+\subsection*{Prevented Cases}
+
+\begin{center}
+\includegraphics{Plots/<%= groupFileName %>/prevented-cases}
+\end{center}
+
+\subsection*{Total cases (yearly)}
+
+\begin{center}
+\includegraphics{Plots/<%= groupFileName %>/cases-yearly}
+\end{center}
+
+\subsection*{Total cases (monthly)}
+
+\begin{center}
+\includegraphics{Plots/<%= groupFileName %>/cases-monthly}
+\end{center}
+
+\subsection*{Covariate Comparison}
+
+\begin{center}
+\includegraphics{Plots/<%= groupFileName %>/covariate-comparison}
+\end{center}
+
+<%
+}
+%>
+
+\end{document}

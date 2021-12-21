@@ -1,0 +1,285 @@
+#header {
+  background: white;
+}
+
+#header .navbar > * {
+  flex: 1 0;
+}
+
+#plot-container {
+  display: none;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 3.5rem;
+  z-index: 1020;
+  background: white;
+}
+
+.plot-on #plot-container {
+  display: block;
+}
+
+#previewPlot {
+  margin-top: 1rem;
+  background: white;
+  box-sizing: content-box;
+  box-shadow: 0 1rem 1rem white;
+}
+
+#previewPlot:after {
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);  
+  height: 1rem;
+  display: block;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  transition: padding-right 0.5s ease;
+}
+
+.main-content, #help-toggle {
+  padding-top: 3.5rem; /* 3.5rem for header nav */
+}
+
+#help-button > a > i.fa {
+  font-size: 150%;
+}
+
+.help-on .main-content {
+  padding-right: 25rem; 
+}
+
+.main-content > .container {
+  flex: 1;
+  align-items: stretch;
+}
+
+#results-pending {
+  display: none;
+}
+
+#resultsUI .accordion > .card > .card-header button.btn {
+  text-transform: none;
+}
+
+#resultsUI .explainer.card > .card-body {
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+#resultsUI .accordion.supplemental {
+  width: 100%;
+}
+
+#resultsUI .warnings ul {
+  list-style: none;
+}
+
+#resultsUI .warnings ul > li > .issue {
+  display: block;
+}
+
+#analysis-progress li.progress-item > span.progress-current {
+  width: 28px;
+  text-align: center;
+}
+
+#analysis-progress li.progress-item > span.progress-done, #analysis-progress li.progress-item > span.progress-waiting, #analysis-progress li.progress-item.waiting > span.progress-done, #analysis-progress li.progress-item.waiting > span.progress-current, #analysis-progress li.progress-item.done > span.progress-current, #analysis-progress li.progress-item.done > span.progress-waiting  {
+  display: none;
+}
+
+#analysis-progress li.progress-item.done > span.progress-done, #analysis-progress li.progress-item > span.progress-current, #analysis-progress li.progress-item.waiting > span.progress-waiting {
+  display: inline;
+}
+
+#help-toggle {
+  display: none;
+  position: fixed;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+}
+
+.help-on #help-toggle {
+  display: block;
+}
+
+#help-container {
+  height: 100%;
+  width: 25rem;
+  padding: 1rem;
+}
+
+#help {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+.help-section {
+  display: none;
+}
+
+.help-section.active {
+  display: block;
+}
+
+#steps {
+  overflow: visible;
+}
+
+.button-next {
+  text-align: right;
+}
+
+.button-next button span.title {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
+.button-next button span.spinner-border-sm {
+  margin-left: -16px;
+}
+
+#plotColumn {
+  position: relative;
+}
+
+#plotSpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: 50px;
+  height: 50px;
+}
+
+ul.stepper li a .label {
+  text-align: left;
+}
+
+ul.stepper li a .summary {
+  text-align: right;
+}
+
+.file-input input.form-control {
+  display: none;
+}
+
+.carousel-item .plotly {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+.carousel-item .table-wrap {
+  margin-bottom: 2rem;
+  height: 400px;
+}
+
+.carousel-item table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.file-input .input-group label.input-group-btn {
+  width: 100%;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+}
+
+.file-input .input-group label.input-group-btn .btn-file {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#results > li > div.step-body .carousel-caption {
+  color: black;
+  top: 10px;
+  font-weight: 600;
+}
+
+#results > li > div.step-body .carousel-item .view > .d-block {
+  padding-top: 60px;
+}
+
+.results-heading {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 3.5rem;
+  z-index: 1020;
+}
+
+.results-heading .spinner-border {
+  position: absolute;
+  right: 1rem;
+}
+
+.shiny-options-group {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em 2em 1em 1em;
+}
+
+.shiny-input-checkboxgroup.shiny-input-container-inline label ~ .shiny-options-group, .shiny-input-radiogroup.shiny-input-container-inline label ~ .shiny-options-group {
+  margin-top: -10px;
+}
+
+#impactType.shiny-input-container:not(.shiny-input-container-inline) {
+  width: 600px;
+}
+
+.shiny-options-group > .checkbox-inline, .shiny-options-group > .checkbox {
+  white-space: nowrap;
+  margin: .5rem;
+}
+
+@media print {
+  nav.navbar,
+  ul.stepper > li::after,
+  #steps > li > .step-body, #steps > li > a span.circle, #steps > li#analysis,
+  #results > li#save,
+  ol.carousel-indicators, a.carousel-control-prev, a.carousel-control-next {
+    display: none;
+  }
+  
+  .fixed-top {
+    position: static;
+  }
+  
+  .main-content, .row, ul.stepper, ul.stepper > li {
+    display: block;
+  }
+
+  ul.stepper > li > a {
+    text-decoration: none;
+    padding: .5rem;
+  }
+  
+  #results > li > div.step-body {
+    display: block;
+  }
+  
+  #results > li > div.step-body .step-content .carousel-item {
+    display: block;
+    float: none;
+  }
+  
+  ul.stepper > li > a {
+    page-break-after: avoid;
+    break-after: avoid-page;
+  }
+  
+  ul.stepper > li > div.step-body, ul.stepper > li > div.step-body .step-content {
+    page-break-before: avoid;
+    break-before: avoid-page;
+  }
+  
+  .carousel-item {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+}
+

@@ -1,0 +1,13 @@
+name: InterventionEvaluatR
+title: InterventionEvaluatR
+username:
+account: airbornemint
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1090500
+bundleId: 2327265
+url: https://airbornemint.shinyapps.io/InterventionEvaluatR/
+when: 1565989854.774
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .dockerignore|.RData|.Rprofile|Dockerfile|Report.template.tex|shiny-server.conf|worker/cloud-config.yml

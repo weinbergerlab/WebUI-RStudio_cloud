@@ -1,0 +1,23 @@
+#cloud-config
+runcmd:
+  # Start pulling the worker image ASAP because that's on the critical path to computation. Note that docker-machine's provisioning process can sometimes restart docker while we're in the middle of this script (to upgrade it), hence the "until" safeguards
+  - until ([ -x /usr/bin/docker ] && /usr/bin/docker info) ; do sleep 1 ; done
+  - until ([ -x /usr/bin/docker ] && sudo -u evaluatr /usr/bin/docker login -u "${GITLAB_REGISTRY_USER}" -p "${GITLAB_REGISTRY_TOKEN}" "${GITLAB_REGISTRY}") ; do sleep 1 ; done
+  - until ([ -x /usr/bin/docker ] && sudo -u evaluatr /usr/bin/docker pull "${WORKER_IMAGE}") ; do sleep 1 ; done
+  # Install DigitalOcean monitoring
+  - curl -sSL https://repos.insights.digitalocean.com/install.sh | bash
+
+  
+users:
+  - name: evaluatr
+    groups: docker
+    ssh-authorized-keys: 
+      - "${WORKER_SSH_PUBKEY}"
+write_files:
+  - path: /usr/local/bin/Rscript-docker
+    content: |
+      #!/bin/bash
+      docker login -u "${GITLAB_REGISTRY_USER}" -p "${GITLAB_REGISTRY_TOKEN}" "${GITLAB_REGISTRY}" &> /dev/null
+      /usr/bin/docker pull "${WORKER_IMAGE}" &> /dev/null
+      exec /usr/bin/docker run --network host "${WORKER_IMAGE}" "$@"
+    permissions: 0755

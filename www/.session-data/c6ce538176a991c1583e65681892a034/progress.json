@@ -1,0 +1,1 @@
+{"items":{"setup":{"name":"Preparing to run analysis","done":true},"init":{"name":"Initializing analysis","done":true},"univariate":{"name":"Running univariate analysis","done":true},"impact":{"name":"Running impact analysis","done":false},"finish":{"name":"Finishing analysis"}},"order":["setup","init","univariate","impact","finish"]}

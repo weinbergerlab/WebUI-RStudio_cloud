@@ -1,0 +1,16 @@
+:::::: { .summary }
+
+Analysis of “`r setup$dataName`” data was performed on `r setup$analysisDate`. The date variable was ` `r setup$dateCol` ` (ranging from `r setup$preStart` to `r setup$postEnd`); the outcome variable was ` `r setup$outcomeCol` / `r setup$denomCol` `; and the group variable was ` `r setup$groupCol` `.
+
+`r rmd.if(length(dataIssues) > 0)`
+The following issues were encountered in the data:
+
+:::::::: { .warnings }
+
+`r rmd.foreach("issue", dataIssues, "results-summary-issue.Rmd")`
+
+::::::::
+
+`r rmd.endif()`
+
+::::::

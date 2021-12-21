@@ -1,0 +1,52 @@
+ul.stepper > li.active > .step-body {
+  display: block;
+}
+
+ul.stepper > li .step-body {
+  display: none;
+}
+
+ul.stepper > li > a {
+  width: 100%;
+  pointer-events: none;
+}
+
+ul.stepper > li.completed > a, ul.stepper > li.active > a {
+  pointer-events: auto;
+}
+
+ul.stepper > li > a > .label.summary {
+  order: 3;
+  margin-left: auto;
+  font-weight: 300;
+}
+
+ul.stepper > li > .step-body {
+  width: 100%;
+}
+
+.spinner.invisible {
+  visibility: hidden;
+}
+
+.accordion > .card > .card-header > a > h5 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accordion > .card > .card-header > a > h5 > svg {
+  fill: #007bff
+}
+
+.accordion > .card > .card-header > a > h5 > i.fa-angle-down {
+  display: none;
+}
+
+.accordion > .card > .card-header > a.collapsed > h5 > i.fa-angle-down {
+  display: inline;
+}
+
+.accordion > .card > .card-header > a.collapsed > h5 > i.fa-angle-up {
+  display: none;
+}
+
