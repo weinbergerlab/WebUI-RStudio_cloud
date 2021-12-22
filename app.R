@@ -1,3 +1,12 @@
+# library(remotes)
+# 
+# if(require(INLA)==F){
+#   remotes::install_github("hrue/r-inla@stable", subdir = "rinla", upgrade='never')  # 21 hours old
+# }
+# 
+# if(require(InterventionEvaluatR)==F){
+#   remotes::install_github("weinbergerlab/InterventionEvaluatR@InterventionEvaluatR-lite", upgrade='never')  # 21 hours old
+# }
 library(magrittr)
 library(plotly)
 library(shinyjs)
