@@ -144,7 +144,8 @@ setup.server = function(input, output, session) {
         pnas_brazil = {
           data("pnas_brazil", package="InterventionEvaluatR")
           pnas_brazil
-        }
+        },
+        SAfrica
       )
     ))
   })

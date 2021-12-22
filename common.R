@@ -22,7 +22,8 @@ postDurations = list(
 )
 
 stockDatasets = list(
-  `Pneumonia in Brazil, 2003-2013`="pnas_brazil"  
+  `Pneumonia in Brazil, 2003-2013`="pnas_brazil",
+  `Pneumonia Deaths in S. Africa, 1999-2016`="SAfrica"
 )
 
 # TRUE if format is valid date format for v
