@@ -1,6 +1,6 @@
 # Create setup UI
 hiddenIf = function(hidden, ui) {
-    if(!hidden) {
+  if(!hidden) {
     return(ui)
   } else {
     return(hidden(ui))
@@ -157,13 +157,13 @@ setup.server = function(input, output, session) {
     if (!is.numeric(input$version) || input$version < SAVE_VERSION_COMPATIBLE) {
       input$analysis = NULL
     }
-
+    
     # In RDS prior to version 15, ridge = FALSE is implicit
     if (is.null(input$params$impactType)) {
       input$params$ridge = FALSE;
       input$analysis$ridge = FALSE;
     }
-
+    
     input
   }
   
@@ -264,7 +264,7 @@ setup.server = function(input, output, session) {
     data[[input$dateCol]] = dataTime()
     data
   })
-
+  
   ############################################################
   # Set up reactive data display
   ############################################################
@@ -428,7 +428,7 @@ setup.server = function(input, output, session) {
   output$outcomeColUI <- renderUI({
     selectInput(
       inputId = "outcomeCol",
-      label = "Which is the outcome (incidence or incidence rate) variable in your data?",
+      label = "Which is the outcome variable in your data? This should be a count for number of cases/hospitalizations/death per unit time",
       choices = c("", setdiff(names(inputData()), names(dateColumns(inputData()))))
     )
   })
@@ -437,7 +437,7 @@ setup.server = function(input, output, session) {
   output$denomColUI <- renderUI({
     selectInput(
       inputId = "denomCol",
-      label = "Which is the denominator variable in your data?",
+      label = "Which is the denominator variable in your data? This could be population size, total number of hospitalizations, etc",
       choices = c("", setdiff(names(inputData()), names(dateColumns(inputData()))))
     )
   })
@@ -447,7 +447,7 @@ setup.server = function(input, output, session) {
     if (dataNeedsGroup()) {
       selectInput(
         inputId = "groupCol",
-        label = "Your data contains multiple observations for each point in time. Which is the grouping variable in your data?",
+        label = "Your data contains multiple observations for each point in time. Which is the grouping variable in your data? (e.g., age group, region)",
         choices = c(`No grouping`="", setdiff(names(inputData()), names(dateColumns(inputData()))))
       )
     }
