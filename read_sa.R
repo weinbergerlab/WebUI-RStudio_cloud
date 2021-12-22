@@ -45,5 +45,5 @@ d2 <-
     "S00_T88"  ,
     "V01_Y99"
   )]
+d2$one = 1
 SAfrica <- d2[d2$age %in% c('1-11 months', '1-4 years','65-79 years'),]
-SAfrica$one = 1

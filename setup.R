@@ -438,7 +438,7 @@ setup.server = function(input, output, session) {
   output$denomColUI <- renderUI({
     selectInput(
       inputId = "denomCol",
-      label = "Which is the denominator variable in your data? This could be population size, total number of hospitalizations, etc",
+      label = "Which is the denominator variable in your data? This could be population size, total number of hospitalizations, etc If you do not have a denominator, you can include a column of 1s and call in 'one' Note that the denominator only influences the time trend analyses, not synthetic controls",
       choices = c("", setdiff(names(inputData()), names(dateColumns(inputData()))))
     )
   })
