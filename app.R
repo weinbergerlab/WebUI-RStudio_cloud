@@ -7,6 +7,9 @@
 # if(require(InterventionEvaluatR)==F){
 #   remotes::install_github("weinbergerlab/InterventionEvaluatR@InterventionEvaluatR-lite", upgrade='never')  # 21 hours old
 # }
+
+options(encoding = 'UTF-8')
+
 library(magrittr)
 library(plotly)
 library(shinyjs)
