@@ -98,7 +98,7 @@ results.server = function(input, output, session, setup) {
             data=analysisData
           )
         )
-
+        
         # Need to pull these out of reactives in order to use them inside a future
         if (checkNeed(setup$precomputedAnalysis())) {
           precomputedAnalysis = setup$precomputedAnalysis()
@@ -125,7 +125,7 @@ results.server = function(input, output, session, setup) {
             } 
             # Otherwise set up the computation worker and run the analysis
             else {
-
+              
               performAnalysis(fullParams, analysisTypes, progress)
             }
           })
@@ -136,7 +136,7 @@ results.server = function(input, output, session, setup) {
           
           reformatted = reformatAnalysis(analysis, analysisTypes, info)
           reformattedAnalysis(reformatted)
-
+          
           # This is the data that is saved to Results.Rds on download. If you change the format of this data or anything included in it, you need to increment SAVE_VERSION_CURRENT and SAVE_VERSION_COMPATIBLE.
           saveData(list(
             version = SAVE_VERSION_CURRENT,
@@ -159,7 +159,7 @@ results.server = function(input, output, session, setup) {
       }
     })
   })
-
+  
   ############################################################
   # Download analysis results
   ############################################################
@@ -208,7 +208,7 @@ results.server = function(input, output, session, setup) {
         }
         
         message(sprintf("Running brew in %s", tempDir))
-  
+        
         # Using brew -> latex because rmarkdown is currently unable to output code blocks from a loop, and we need to loop over groups
         brew(
           file="Report.template.tex",
@@ -224,7 +224,7 @@ results.server = function(input, output, session, setup) {
             rmd.foreach=rmd.foreach
           ), parent=baseenv())
         )
-  
+        
         # Change workdir when running LaTeX so its temporary files can be deleted
         oldWD <- getwd()
         # Clean up temporary directory on exit
@@ -235,7 +235,7 @@ results.server = function(input, output, session, setup) {
         setwd(tempDir)
         
         message(sprintf("Running texi2pdf in %s", tempDir))
-  
+        
         Sys.setenv(PDFLATEX="xelatex")
         texi2pdf(
           file="Report.tex"
@@ -328,25 +328,25 @@ results.server.show = function(input, output, session, analysis) {
               )
             ) %>% tagAppendAttributes(class="mb-3 mt-3 col-12")
           )
-        })),
-        tags$section(
-          div(
-            class="navbar results-heading justify-content-center primary-color",
-            p(class="h3 p-2 m-0 text-white", "Download results")
-          ),
-          div(
-            class="col-12 mb-3 mt-3",
-            downloadButton('downloadResults', "Download results"),
-            p("Includes:"),
-            tags$ul(
-              tags$li("Report with analysis results (PDF). It contains the same information you see on this page, in a form that you can easily share with others."),
-              tags$li("Individual plots (PDF). You can use these in your own reports and presentations."),
-              tags$li("Data file with analysis results (RDS). Advanced users can import this into RStudio for additional analysis or to generate additional plots.")
-            )
-          ),
-          HTML("<script>$(function() { $('#downloadResults')[0].click() })</script>")
-        )
-      )
+        }))#,
+        # tags$section(
+        #   div(
+        #     class="navbar results-heading justify-content-center primary-color",
+        #     p(class="h3 p-2 m-0 text-white", "Download results")
+        #   ),
+        # div(
+        #   class="col-12 mb-3 mt-3",
+        #   downloadButton('downloadResults', "Download results"),
+        #   p("Includes:"),
+        #   tags$ul(
+        #     tags$li("Report with analysis results (PDF). It contains the same information you see on this page, in a form that you can easily share with others."),
+        #     tags$li("Individual plots (PDF). You can use these in your own reports and presentations."),
+        #     tags$li("Data file with analysis results (RDS). Advanced users can import this into RStudio for additional analysis or to generate additional plots.")
+        #   )
+      )#,
+      #       HTML("<script>$(function() { $('#downloadResults')[0].click() })</script>")
+      #  )
+      #)
     })
     
     for(idx in seq_along(results$groups)) {
@@ -517,7 +517,7 @@ update_progress = function(session, ...) {
       item
     }
   })
-
+  
   # There's a bug in Shiny which causes R to crash with a segfault if we do this a happy way, so kludge it is
   # https://community.rstudio.com/t/sendcustommessage-segfault-failing-to-work-around-it/39993
   # session$sendCustomMessage("update_analysis_progress", list(items=items))
@@ -536,15 +536,15 @@ progressState = list()
 
 updateState = function(state, session, items) {
   sessionID = session$token
-
+  
   sessionState = state[[sessionID]]
   if (is.null(sessionState)) {
     sessionState = list(items=list(), order=c())
   }
-
+  
   for (itemID in names(items)) {
     item = items[[itemID]]
-
+    
     itemState = sessionState$items[[itemID]]
     if (is.null(itemState)) {
       itemState = list()
@@ -557,21 +557,21 @@ updateState = function(state, session, items) {
           NA
         }
       }) %>% na.omit()
-
+      
       if (length(insertAfter)) {
         sessionState$order = c(sessionState$order[1:length(insertAfter)], itemID, sessionState$order[(length(insertAfter) + 1):length(sessionState$order)])
       } else {
         sessionState$order = c(sessionState$order, itemID)
       }
     }
-
+    
     for (propertyID in names(item)) {
       itemState[[propertyID]] = item[[propertyID]]
     }
-
+    
     sessionState$items[[itemID]] = itemState
   }
-
+  
   state[[sessionID]] = sessionState
   state
 }
