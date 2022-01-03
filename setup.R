@@ -133,7 +133,7 @@ setup.server = function(input, output, session) {
   setup$userInput = reactiveVal() # Will be list(name, input, params, results)
   
   observe({
-    validate(need(input$stockDataset, FALSE))
+    shiny::validate(need(input$stockDataset, FALSE))
     md_update_spinner(session, "loadSpinner", visible=TRUE)
     setup$userInput(list(
       info=list(
@@ -178,7 +178,7 @@ setup.server = function(input, output, session) {
   }
   
   observe({
-    validate(need(input$userDataset, FALSE))
+    shiny::validate(need(input$userDataset, FALSE))
     md_update_spinner(session, "loadSpinner", visible=TRUE)
     updateSelectInput(session, "stockDataset", selected="")
     upload = input$userDataset[1,]
@@ -193,19 +193,19 @@ setup.server = function(input, output, session) {
   
   # This is the input data for analysis  
   inputData = reactive({
-    validate(need(setup$userInput(), FALSE))
+    shiny::validate(need(setup$userInput(), FALSE))
     setup$userInput()$data
   })
   
   # Pre-computed results, if uploaded by the user
   inputAnalysis = reactive({
-    validate(need(setup$userInput(), FALSE))
+    shiny::validate(need(setup$userInput(), FALSE))
     setup$userInput()$analysis
   })
   
   # Params of pre-computed results, if uploaded by the user
   inputParams = reactive({
-    validate(need(setup$userInput(), FALSE))
+    shiny::validate(need(setup$userInput(), FALSE))
     setup$userInput()$params
   })
   
@@ -214,14 +214,14 @@ setup.server = function(input, output, session) {
   })
   
   dataTime = reactive({
-    validate(need(input$dateCol, FALSE))
-    validate(need(input$dateFormat, FALSE))
+    shiny::validate(need(input$dateCol, FALSE))
+    shiny::validate(need(input$dateFormat, FALSE))
     
     as.Date(inputData()[[input$dateCol]], format=input$dateFormat) 
   })
   
   dataOutcome = reactive({
-    validate(need(input$outcomeCol, FALSE))
+    shiny::validate(need(input$outcomeCol, FALSE))
     
     if (checkNeed(input$denomCol)) {
       inputData()[[input$outcomeCol]] / inputData()[[input$denomCol]]
@@ -241,26 +241,26 @@ setup.server = function(input, output, session) {
   })
   
   dataGroupValues = reactive({
-    validate(need(dataGroup, FALSE))
+    shiny::validate(need(dataGroup, FALSE))
     factor(dataGroup())
   })
   
   dataPostStart = reactive({
-    validate(need(input$postStart, FALSE))
+    shiny::validate(need(input$postStart, FALSE))
     date = as.Date(input$postStart, "%Y-%m-%d")
     day(date) = 1
     date
   })
   
   dataEvalStart = reactive({
-    validate(need(input$postDuration, FALSE))
+    shiny::validate(need(input$postDuration, FALSE))
     date = dataPostStart() %m+% months(as.numeric(input$postDuration))
     day(date) = 1
     date
   })
   
   setup$preparedData = reactive({
-    validate(need(inputData(), dataTime(), FALSE))
+    shiny::validate(need(inputData(), dataTime(), FALSE))
     data = inputData()
     data[[input$dateCol]] = dataTime()
     data
@@ -341,13 +341,13 @@ setup.server = function(input, output, session) {
   ############################################################
   
   setup$analysisParams = reactive({
-    validate(need(dataTime(), FALSE))
-    validate(need(dataPostStart(), FALSE))
-    validate(need(dataEvalStart(), FALSE))
-    validate(need(input$groupCol, FALSE))
-    validate(need(input$dateCol, FALSE))
-    validate(need(input$outcomeCol, FALSE))
-    validate(need(input$denomCol, FALSE))
+    shiny::validate(need(dataTime(), FALSE))
+    shiny::validate(need(dataPostStart(), FALSE))
+    shiny::validate(need(dataEvalStart(), FALSE))
+    shiny::validate(need(input$groupCol, FALSE))
+    shiny::validate(need(input$dateCol, FALSE))
+    shiny::validate(need(input$outcomeCol, FALSE))
+    shiny::validate(need(input$denomCol, FALSE))
     # Detect whether we are using monthly or quarterly observations by looking at the average interval between observations
     obsPerYear = 365 / as.numeric(diff(range(dataTime()))) * length(unique(dataTime()))
     obsPerYear = ifelse(obsPerYear > 8, 12, 4)
@@ -369,9 +369,9 @@ setup.server = function(input, output, session) {
   
   setup$precomputedAnalysis = reactive({
     # Precomputed results are only valid if inputParams match current analysis params and if groups previously analyzed include all groups currently selected
-    validate(need(inputAnalysis(), FALSE))
-    validate(need(inputParams(), FALSE))
-    validate(need(setup$analysisParams(), FALSE))
+    shiny::validate(need(inputAnalysis(), FALSE))
+    shiny::validate(need(inputParams(), FALSE))
+    shiny::validate(need(setup$analysisParams(), FALSE))
     
     missingGroups = setdiff(input$analysisGroups, inputAnalysis()$groups)
     
@@ -409,7 +409,7 @@ setup.server = function(input, output, session) {
   outputOptions(output, 'dateColUI', suspendWhenHidden=FALSE)
   
   output$dateFormatUI <- renderUI({
-    validate(need(input$dateCol, FALSE))
+    shiny::validate(need(input$dateCol, FALSE))
     
     choices = (inputData() %>% dateColumns())[[input$dateCol]]
     select = selectInput(
@@ -471,7 +471,7 @@ setup.server = function(input, output, session) {
   outputOptions(output, 'introDateUI', suspendWhenHidden=FALSE)
   
   output$analysisGroupsUI = renderUI({
-    validate(need(dataGroupValues(), FALSE), need(input$groupCol, FALSE))
+    shiny::validate(need(dataGroupValues(), FALSE), need(input$groupCol, FALSE))
     groupValues = levels(dataGroupValues())
     groupNames = sprintf("%s %s", input$groupCol, groupValues)
     
@@ -562,18 +562,18 @@ setup.server = function(input, output, session) {
   ############################################################
   
   output$loadSummary = reactive({
-    validate(need(setup$userInput()$info$name, FALSE))
+    shiny::validate(need(setup$userInput()$info$name, FALSE))
     md_update_spinner(session, "loadSpinner", hidden=checkNeed(setup$userInput()$info$name))
     setup$userInput()$info$name
   })
   
   output$dateSummary = renderUI({
-    validate(need(input$dateCol, FALSE))
+    shiny::validate(need(input$dateCol, FALSE))
     tags$code(input$dateCol)
   })
   
   output$outcomeSummary = renderUI({
-    validate(need(dataOutcome(), FALSE))
+    shiny::validate(need(dataOutcome(), FALSE))
     if (checkNeed(input$denomCol) && checkNeed(input$groupCol)) {
       span(
         tags$code(input$outcomeCol),
@@ -600,7 +600,7 @@ setup.server = function(input, output, session) {
   })
   
   output$periodsSummary = renderUI({
-    validate(need(dataPostStart(), FALSE), need(dataEvalStart(), FALSE))
+    shiny::validate(need(dataPostStart(), FALSE), need(dataEvalStart(), FALSE))
     span(
       span(
         class="pre-period",

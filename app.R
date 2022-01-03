@@ -128,7 +128,7 @@ server = function(input, output, session) {
   autoStop = reactiveVal(as.numeric(Sys.time()))
   
   observe({
-    validate(need(input$lastUserActivity, FALSE))
+    shiny::validate(need(input$lastUserActivity, FALSE))
     autoStop(as.numeric(Sys.time()))
   })
 
